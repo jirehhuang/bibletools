@@ -1,0 +1,64 @@
+name: Continuous Integration
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  pr-title:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          requireScope: false
+
+  lint-and-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: "2.1.4"
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run pre-commit
+        run: poetry run pre-commit run --all-files
+
+      - name: Run pylint
+        run: |
+          SCORE=$(poetry run pylint bibletools --exit-zero --score=y | grep "Your code has been rated at" | awk '{print $7}' | cut -d'/' -f1)
+          echo "Pylint score: $SCORE"
+          if [ -n "$SCORE" ] && ! python -c "exit(0 if float('$SCORE') >= 10.0 else 1)"; then
+            echo "ERROR: Pylint score < 10.0"
+            exit 1
+          fi
+
+      - name: Run tests
+        run: poetry run pytest
+
+      - name: Check coverage
+        run: poetry run python .github/scripts/check_coverage.py --min 95 coverage.xml
