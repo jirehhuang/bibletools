@@ -1,3 +1,1 @@
-"""Python Lambda template."""
-
-from .lambda_function import lambda_handler
+"""Toolkit for working with the Bible."""
