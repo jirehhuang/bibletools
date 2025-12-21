@@ -1,4 +1,4 @@
-# `python-lambda-template`
+# Bible Tools
 
 ## Contributing
 
