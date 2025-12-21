@@ -1,12 +1,11 @@
 [project]
-name = "python-lambda-template"
+name = "bibletools"
 version = "0.1.0"
-description = "Python AWS Lambda template"
+description = "Toolkit for working with the Bible"
 authors = [
     {name="Jireh Huang", email="ijirehhuang@gmail.com"},
 ]
 readme = "README.md"
-packages = [{ include = "lambda_function" }]
 requires-python = ">=3.12, <4.0"
 dependencies = [
     "requests>=2.32.5,<3.0.0",
@@ -17,7 +16,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{ include = "lambda_function" }]
+packages = [{ include = "bibletools" }]
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
@@ -61,7 +60,6 @@ convention = "numpy"
     "D205",  # missing-blank-line-after-summary
     "D209"  # new-line-after-last-paragraph
 ]
-"lambda_function/alexa.py" = ["D102"]  # undocumented-public-method
 "__init__.py" = ["F401"]  # unused-import
 
 [tool.flake8]
@@ -84,7 +82,7 @@ tag_format = "v$version"
 update_changelog_on_bump = true
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=lambda_function --cov-report=term-missing --cov-report=xml:coverage.xml"
+addopts = "-v --cov=bibletools --cov-report=term-missing --cov-report=xml:coverage.xml"
 testpaths = ["tests"]
 markers = [
     "e2e: mark a test as end-to-end (skipped unless --url is provided)"

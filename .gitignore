@@ -20,10 +20,6 @@ poetry.lock
 .cache/
 .venv/
 
-# AWS Lambda build artifacts
-package/
-function.zip
-
 # PyInstaller
 *.manifest
 *.spec
