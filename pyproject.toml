@@ -13,6 +13,8 @@ dependencies = [
     "ask-sdk-core>=1.19.0,<2.0.0",
     "uuid6>=2025.0.1",
     "numpy>=2.3.2,<3.0.0",
+    "pythonbible==0.10.0",
+    "pythonbible-parser @ https://github.com/avendesora/pythonbible-parser/archive/7838715233d1b5bb1bd506a748f2cd9af50ea5e7.tar.gz",
 ]
 
 [tool.poetry]
@@ -34,6 +36,9 @@ python-dotenv = "^1.1.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.setuptools]
+include-package-data = true
 
 # -------------------
 # Tool Configurations
