@@ -48,7 +48,14 @@ def _read_file_as_string(file_location: str) -> str:
     raise FileNotFoundError(f"Unable to read file: {file_location}")
 
 
-def _parse_xml_to_dict(xml: str) -> dict:
+# pylint: disable=too-many-locals
+def _parse_xml_to_dict(
+    xml: str,
+    testament_path: str | None = None,
+    book_spec: tuple[str, str] = ("b", "n"),
+    chapter_spec: tuple[str, str] = ("c", "n"),
+    verse_spec: tuple[str, str] = ("v", "n"),
+) -> dict:
     """Convert a Bible XML string to a nested dictionary.
 
     Structure:
@@ -79,22 +86,29 @@ def _parse_xml_to_dict(xml: str) -> dict:
     root = ElementTree.fromstring(xml)
     bible_dict = {}
 
-    for book in root.findall("b"):
-        book_name = book.attrib["n"]
-        book_dict = {}
+    testaments = (
+        [root] if testament_path is None else root.findall(testament_path)
+    )
+    for testament in testaments:
 
-        for chapter_index, chapter in enumerate(book.findall("c"), start=1):
-            chapter_dict = {}
+        book_path, book_attrib = book_spec
+        for book in testament.findall(book_path):
+            book_name = book.attrib[book_attrib]
+            book_dict = {}
 
-            for verse in chapter.findall("v"):
-                verse_num = int(verse.attrib["n"])
-                text = (verse.text or "").strip()
-                chapter_dict[verse_num] = {
-                    "text": text,
-                }
+            chapter_path, chapter_attrib = chapter_spec
+            for chapter in book.findall(chapter_path):
+                chapter_name = chapter.attrib[chapter_attrib]
+                chapter_dict = {}
 
-            book_dict[chapter_index] = chapter_dict
+                verse_path, verse_attrib = verse_spec
+                for verse in chapter.findall(verse_path):
+                    verse_name = verse.attrib[verse_attrib]
+                    text = (verse.text or "").strip()
+                    chapter_dict[verse_name] = {"text": text}
 
-        bible_dict[book_name] = book_dict
+                book_dict[chapter_name] = chapter_dict
+
+            bible_dict[book_name] = book_dict
 
     return bible_dict
