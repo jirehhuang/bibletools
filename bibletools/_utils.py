@@ -5,6 +5,7 @@ import io
 import os
 import urllib.parse
 import urllib.request
+from xml.etree import ElementTree
 
 
 def _read_file_as_string(file_location: str) -> str:
@@ -45,3 +46,55 @@ def _read_file_as_string(file_location: str) -> str:
             return f.read()
 
     raise FileNotFoundError(f"Unable to read file: {file_location}")
+
+
+def _parse_xml_to_dict(xml: str) -> dict:
+    """Convert a Bible XML string to a nested dictionary.
+
+    Structure:
+
+    {
+      "book_name": {
+        chapter_number: {
+          verse_number: {
+            "text": "Verse text..."
+          },
+          ...
+        },
+        ...
+      },
+      ...
+    }
+
+    Parameters
+    ----------
+    xml
+        XML content as a string.
+
+    Returns
+    -------
+    dict
+        Nested dictionary of books, chapters, and verses with text.
+    """
+    root = ElementTree.fromstring(xml)
+    bible_dict = {}
+
+    for book in root.findall("b"):
+        book_name = book.attrib["n"]
+        book_dict = {}
+
+        for chapter_index, chapter in enumerate(book.findall("c"), start=1):
+            chapter_dict = {}
+
+            for verse in chapter.findall("v"):
+                verse_num = int(verse.attrib["n"])
+                text = (verse.text or "").strip()
+                chapter_dict[verse_num] = {
+                    "text": text,
+                }
+
+            book_dict[chapter_index] = chapter_dict
+
+        bible_dict[book_name] = book_dict
+
+    return bible_dict
