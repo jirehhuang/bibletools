@@ -8,7 +8,22 @@ import urllib.request
 
 
 def _read_file_as_string(file_location: str) -> str:
-    """Read the content of a file from a local path or URL as a string."""
+    """Read the content of a file as a string.
+
+    Params
+    ------
+    file_location
+        The location of the file to read. This can be one of the following:
+
+        - A URL to a remote file (http or https).
+        - An absolute or relative file path on the local filesystem.
+        - A package resource located in `bibletools.data.translations`.
+
+    Returns
+    -------
+    str
+        The content of the file as a string.
+    """
     if urllib.parse.urlparse(file_location).scheme in ("http", "https"):
         with urllib.request.urlopen(file_location) as response:
             return response.read().decode("utf-8")
