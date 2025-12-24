@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from bibletools._utils import _parse_xml_to_dict, _read_file_as_string
+from bibletools._utils import _read_file_as_string
 
 KJV_XML_URL = (
     "https://raw.githubusercontent.com/rwev/bible/refs/heads/master/bible/"
@@ -59,17 +59,9 @@ def test_read_file_as_string(file_location):
         assert verse_text in xml
 
 
-@pytest.mark.parametrize(
-    "file_location",
-    [
-        "KJV.xml",
-    ],
-)
-def test_parse_xml_to_dict(file_location):
+def test_parse_xml_to_dict(bible_dict):
     """Test that the _parse_xml_to_dict function correctly converts a Bible XML
     string to a nested dictionary."""
-    xml = _read_file_as_string(file_location=file_location)
-    bible_dict = _parse_xml_to_dict(xml=xml)
     assert isinstance(bible_dict, dict)
     assert (
         bible_dict["Psalms"]["16"]["11"]["text"] == VERSE_TEXTS["Psalm 16:11"]
