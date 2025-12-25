@@ -63,6 +63,6 @@ def parse_references(text: str) -> list[pb.NormalizedReference]:
     text
         A sentence containing a compound Bible reference.
     """
-    text = _normalize_dashes(text)
-    text = _normalize_noncontiguous_separators(text)
-    return pb.get_references(text)
+    text = _normalize_dashes(text=text)
+    text = _normalize_noncontiguous_separators(text=text)
+    return pb.get_references(text=text)
