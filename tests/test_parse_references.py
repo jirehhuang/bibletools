@@ -80,6 +80,12 @@ TEXT_EXPECTED_CASES = [
         "Psalm 23-24",
         "Psalms 23:1-24:22",
     ),
+    (
+        # Contains dash variant and semicolon separator
+        # https://github.com/jirehhuang/bibletools/issues/4
+        "John 1:2–3, 5–6; 7:8–9",  # noqa: RUF001
+        "John 1:2-3,5-6,7:8-9",
+    ),
 ]
 
 
