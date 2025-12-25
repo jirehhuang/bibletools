@@ -85,9 +85,6 @@ update_changelog_on_bump = true
 [tool.pytest.ini_options]
 addopts = "-v --cov=bibletools --cov-report=term-missing --cov-report=xml:coverage.xml"
 testpaths = ["tests"]
-markers = [
-    "e2e: mark a test as end-to-end (skipped unless --url is provided)"
-]
 
 [tool.coverage.run]
 omit = ["tests/*"]
