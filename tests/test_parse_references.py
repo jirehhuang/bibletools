@@ -70,6 +70,16 @@ TEXT_EXPECTED_CASES = [
         "(see 2 Corinthians 6:18 - 7:1 ; 13:2 ; ",
         "2 Corinthians 6:18-7:1,13:2",
     ),
+    (
+        # Phil should be Philippians and not Philemon
+        "Phil 4:11-13",
+        "Philippians 4:11-13",
+    ),
+    (
+        # Psalms is plural for multiple Psalms
+        "Psalm 23-24",
+        "Psalms 23:1-24:22",
+    ),
 ]
 
 
@@ -102,6 +112,11 @@ TEXT_EXPECTED_FAILING_CASES = [
         # Reference order should be preserved as in original text
         "Revelation 22:1-3 and Genesis 22:1-3",
         "Revelation 22:1-3;Genesis 22:1-3",
+    ),
+    (
+        # Psalm is singular for a single Psalm
+        "Psalm 23",
+        "Psalm 23",
     ),
 ]
 
