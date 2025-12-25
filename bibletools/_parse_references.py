@@ -23,6 +23,7 @@ def _normalize_noncontiguous_separators(text: str) -> str:
     str
         The string with all non-contiguous verse separators replaced by ','.
     """
+    # Replace semicolons followed by whitespace + digit (continue same book)
     return re.sub(r";(?=\s*\d)", ",", text)
 
 
