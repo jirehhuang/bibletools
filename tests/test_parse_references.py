@@ -40,7 +40,7 @@ TEXT_EXPECTED_CASES = [
     (
         # Another example of range across chapters with trailing dash
         "note on Song of Solomon 5:16-6:1 - Jesus will ultimately",
-        "Song of Solomon 5:16-6:1",
+        "Song of Songs 5:16-6:1",
     ),
     (
         # Partial verses should be treated as whole
