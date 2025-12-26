@@ -13,6 +13,7 @@ dependencies = [
     "ask-sdk-core>=1.19.0,<2.0.0",
     "uuid6>=2025.0.1",
     "numpy>=2.3.2,<3.0.0",
+    "pythonbible @ https://github.com/jirehhuang/pythonbible-lite/archive/853e4e46fb2eb59235466fc0bd2b6cd8740b5f3e.tar.gz",
 ]
 
 [tool.poetry]
@@ -84,9 +85,6 @@ update_changelog_on_bump = true
 [tool.pytest.ini_options]
 addopts = "-v --cov=bibletools --cov-report=term-missing --cov-report=xml:coverage.xml"
 testpaths = ["tests"]
-markers = [
-    "e2e: mark a test as end-to-end (skipped unless --url is provided)"
-]
 
 [tool.coverage.run]
 omit = ["tests/*"]
