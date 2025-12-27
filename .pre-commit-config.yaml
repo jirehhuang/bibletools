@@ -12,8 +12,10 @@ repos:
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
+        exclude: '.*\.json$'
       - id: check-yaml
       - id: check-added-large-files
+        exclude: ^bibletools/data/.*
       - id: mixed-line-ending
 
   # Ruff for linting & autofix

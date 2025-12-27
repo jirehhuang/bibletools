@@ -78,7 +78,7 @@ TEXT_EXPECTED_CASES = [
     (
         # Psalms is plural for multiple Psalms
         "Psalm 23-24",
-        "Psalms 23:1-24:22",
+        "Psalms 23:1-24:10",
     ),
     (
         # Contains dash variant and semicolon separator
