@@ -10,9 +10,10 @@ from pythonbible import (
 )
 
 
-def test_create_verse_counts_by_author():
-    """Test to create verse counts by author from previously generated file."""
-    # Structure:
+def test_make_verse_counts_by_author_and_id():
+    """Test to convert verse counts by verse and author to verse counts
+    by author and verse ID."""
+    # Input structure:
     # {
     #   book: {
     #     chapter: {
@@ -34,16 +35,24 @@ def test_create_verse_counts_by_author():
     for book in verse_counts.keys():
         for chapter in verse_counts[book].keys():
             for verse in verse_counts[book][chapter].keys():
-                verse_id = convert_references_to_verse_ids(
+                verse_ids = convert_references_to_verse_ids(
                     get_references(f"{book} {chapter}:{verse}")
-                )[0]
+                )
+                if len(verse_ids) < 1:
+                    continue  # Skip verse that does not exist
+                if len(verse_ids) > 1:
+                    print("here")
+                verse_id = verse_ids[0]
+
                 for author in verse_counts[book][chapter][verse].keys():
                     count = verse_counts[book][chapter][verse][author]
                     author_ = "total" if author == "count" else author
+
                     if author_ not in verse_counts_by_author:
                         verse_counts_by_author[author_] = {}
                     verse_counts_by_author[author_][verse_id] = count
 
+    # Sort by totals for each author
     for author, counts in verse_counts_by_author.items():
         counts["total"] = sum(counts.values())
         verse_counts_by_author[author] = dict(
@@ -62,7 +71,7 @@ def test_create_verse_counts_by_author():
         )
     )
 
-    # Structure:
+    # Output structure:
     # {
     #   "total": {
     #     "total": count (int),
