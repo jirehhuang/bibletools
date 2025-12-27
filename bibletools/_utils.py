@@ -59,12 +59,12 @@ def _read_file_as_string(file_location: str) -> str:
             return f.read()
 
     if (
-        pkg_resources.files("bibletools.data.translations")
+        pkg_resources.files("bibletools.data")
         .joinpath(file_location)
         .is_file()
     ):
         with (
-            pkg_resources.files("bibletools.data.translations")
+            pkg_resources.files("bibletools.data")
             .joinpath(file_location)
             .open("r", encoding="utf-8") as f
         ):

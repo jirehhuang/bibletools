@@ -10,6 +10,7 @@ KJV_XML_URL = (
     "https://raw.githubusercontent.com/rwev/bible/refs/heads/master/bible/"
     "translations/KJV.xml"
 )
+
 KJBIBLE_XML_URL = (
     "https://raw.githubusercontent.com/Beblia/Holy-Bible-XML-Format/"
     "refs/heads/master/EnglishKJBible.xml"
@@ -43,7 +44,6 @@ VERSE_TEXTS = {
                 Path(__file__).resolve().parents[1]
                 / "bibletools"
                 / "data"
-                / "translations"
                 / "EnglishKJBible.xml"
             )
         ),
