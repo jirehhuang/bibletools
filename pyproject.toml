@@ -59,7 +59,8 @@ convention = "numpy"
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
     "D205",  # missing-blank-line-after-summary
-    "D209"  # new-line-after-last-paragraph
+    "D209",  # new-line-after-last-paragraph
+    "PLR2004",  # Magic value used in comparison
 ]
 "tests/test_data.py" = [
     "ERA001"  # commented-out
