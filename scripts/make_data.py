@@ -1,18 +1,18 @@
-"""Test module to generate and manipulate data."""
+"""Make data used in bibletools."""
 
 import importlib.resources
 import json
 import pathlib
 
-from pythonbible import (
-    convert_references_to_verse_ids,
-    get_references,
-)
+from pythonbible import convert_references_to_verse_ids, get_references
 
 
-def test_make_verse_counts_by_author_and_id():
-    """Test to convert verse counts by verse and author to verse counts
-    by author and verse ID."""
+def make_verse_counts_by_author_and_id():
+    """Make verse counts by author and verse ID.
+
+    Function to convert verse counts by verse and author to verse counts by
+    author and verse ID.
+    """
     # Input structure:
     # {
     #   book: {
@@ -93,3 +93,7 @@ def test_make_verse_counts_by_author_and_id():
     )
     with output_path.open("w", encoding="utf-8") as out_f:
         json.dump(verse_counts_by_author, out_f, ensure_ascii=False, indent=2)
+
+
+if __name__ == "__main__":
+    make_verse_counts_by_author_and_id()

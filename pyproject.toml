@@ -62,7 +62,7 @@ convention = "numpy"
     "D209",  # new-line-after-last-paragraph
     "PLR2004",  # Magic value used in comparison
 ]
-"tests/test_data.py" = [
+"scripts/*" = [
     "ERA001"  # commented-out
 ]
 "__init__.py" = ["F401"]  # unused-import
