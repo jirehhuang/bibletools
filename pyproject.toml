@@ -13,8 +13,7 @@ dependencies = [
     "ask-sdk-core>=1.19.0,<2.0.0",
     "uuid6>=2025.0.1",
     "numpy>=2.3.2,<3.0.0",
-    "pythonbible==0.10.0",
-    "pythonbible-parser @ https://github.com/avendesora/pythonbible-parser/archive/7838715233d1b5bb1bd506a748f2cd9af50ea5e7.tar.gz",
+    "pythonbible @ https://github.com/jirehhuang/pythonbible-lite/archive/ef1e99f815fd204df92e600117956d10db4004ab.tar.gz",
 ]
 
 [tool.poetry]
@@ -63,7 +62,11 @@ convention = "numpy"
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
     "D205",  # missing-blank-line-after-summary
-    "D209"  # new-line-after-last-paragraph
+    "D209",  # new-line-after-last-paragraph
+    "PLR2004",  # Magic value used in comparison
+]
+"scripts/*" = [
+    "ERA001"  # commented-out
 ]
 "__init__.py" = ["F401"]  # unused-import
 
@@ -89,9 +92,6 @@ update_changelog_on_bump = true
 [tool.pytest.ini_options]
 addopts = "-v --cov=bibletools --cov-report=term-missing --cov-report=xml:coverage.xml"
 testpaths = ["tests"]
-markers = [
-    "e2e: mark a test as end-to-end (skipped unless --url is provided)"
-]
 
 [tool.coverage.run]
 omit = ["tests/*"]
