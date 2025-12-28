@@ -18,8 +18,7 @@ def _parse_xml_to_dict(
     {
       "book_name": {
         chapter_number: {
-          verse_number: {
-            "text": "Verse text..."
+          verse_number: "Verse text..."
           },
           ...
         },
@@ -60,7 +59,7 @@ def _parse_xml_to_dict(
                 for verse in chapter.findall(verse_path):
                     verse_name = verse.attrib[verse_attrib]
                     text = (verse.text or "").strip()
-                    chapter_dict[verse_name] = {"text": text}
+                    chapter_dict[verse_name] = text
 
                 book_dict[chapter_name] = chapter_dict
 
