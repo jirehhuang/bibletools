@@ -152,3 +152,27 @@ def get_highest_weighted_verse(
         verse_ids, key=lambda vid: verse_weights.get(str(vid), 0)
     )
     return check_valid_verse_ids([highest_weighted_verse])[0]
+
+
+def get_verse_text_for_reference(
+    reference: NormalizedReference,
+    verse_text_map: dict[int, str],
+    verse_separator: str = " ",
+) -> str:
+    """Return verse texts for the given reference.
+
+    Parameters
+    ----------
+    reference
+        Reference with verses to retrieve.
+    verse_text_map
+        Map for verse IDs to their corresponding text values.
+
+    Returns
+    -------
+    str
+        Concatenated verse texts corresponding to the given reference.
+    """
+    verse_ids = convert_reference_to_verse_ids(reference=reference)
+    verse_texts = [verse_text_map[vid] for vid in verse_ids]
+    return verse_separator.join(verse_texts)
