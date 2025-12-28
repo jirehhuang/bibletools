@@ -52,7 +52,7 @@ def _get_book_from_text(text: str) -> Book:
 
 
 # pylint: disable=too-many-locals
-def parse_xml_to_verse_text_mapping(
+def parse_xml_to_verse_text_map(
     xml: str,
     testament_path: str | None = None,
     book_spec: tuple[str, str] = ("b", "n"),
@@ -78,7 +78,7 @@ def parse_xml_to_verse_text_mapping(
         Dictionary of verse IDs and their corresponding text.
     """
     root = ElementTree.fromstring(xml)
-    bible_dict = {}
+    verse_text_map = {}
 
     testaments = (
         [root] if testament_path is None else root.findall(testament_path)
@@ -103,6 +103,6 @@ def parse_xml_to_verse_text_mapping(
                         chapter=int(chapter_name),
                         verse=int(verse_name),
                     )
-                    bible_dict[verse_id] = (verse.text or "").strip()
+                    verse_text_map[verse_id] = (verse.text or "").strip()
 
-    return bible_dict
+    return verse_text_map
