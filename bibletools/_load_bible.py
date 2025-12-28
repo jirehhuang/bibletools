@@ -1,10 +1,58 @@
 """Load and convert Bible XML files."""
 
+import re
 from xml.etree import ElementTree
+
+from pythonbible import Book, get_verse_id
+
+
+def _get_book_from_text(text: str) -> Book:
+    """Return the Book enum corresponding to a book name or abbreviation.
+
+    Parameters
+    ----------
+    text
+        Book name, abbreviation, or other accepted identifier.
+
+    Returns
+    -------
+    pythonbible.Book
+
+    Raises
+    ------
+    ValueError
+        If no matching Book is found.
+    """
+    normalized = text.strip()
+
+    # 1. Enum member name (GENESIS, SAMUEL_1, etc.)
+    try:
+        return Book[normalized.upper()]
+    except KeyError:
+        pass
+
+    # 2. Exact title match (case-insensitive)
+    for book in Book:
+        if normalized.lower() == book.title.lower():
+            return book
+
+    # 3. Abbreviation match
+    for book in Book:
+        if normalized.lower() in (abbr.lower() for abbr in book.abbreviations):
+            return book
+
+    # 4. Regex match (most flexible, last resort)
+    for book in Book:
+        if re.fullmatch(
+            book.regular_expression, normalized, flags=re.IGNORECASE
+        ):
+            return book
+
+    raise ValueError(f"Unknown Bible book: {text!r}")
 
 
 # pylint: disable=too-many-locals
-def _parse_xml_to_dict(
+def parse_xml_to_verse_text_mapping(
     xml: str,
     testament_path: str | None = None,
     book_spec: tuple[str, str] = ("b", "n"),
@@ -16,15 +64,7 @@ def _parse_xml_to_dict(
     Structure:
 
     {
-      "book_name": {
-        chapter_number: {
-          verse_number: "Verse text..."
-          },
-          ...
-        },
-        ...
-      },
-      ...
+      verse_id (int): text (str),
     }
 
     Parameters
@@ -35,7 +75,7 @@ def _parse_xml_to_dict(
     Returns
     -------
     dict
-        Nested dictionary of books, chapters, and verses with text.
+        Dictionary of verse IDs and their corresponding text.
     """
     root = ElementTree.fromstring(xml)
     bible_dict = {}
@@ -48,21 +88,21 @@ def _parse_xml_to_dict(
         book_path, book_attrib = book_spec
         for book in testament.findall(book_path):
             book_name = book.attrib[book_attrib]
-            book_dict = {}
+            book_instance = _get_book_from_text(book_name)
 
             chapter_path, chapter_attrib = chapter_spec
             for chapter in book.findall(chapter_path):
                 chapter_name = chapter.attrib[chapter_attrib]
-                chapter_dict = {}
 
                 verse_path, verse_attrib = verse_spec
                 for verse in chapter.findall(verse_path):
                     verse_name = verse.attrib[verse_attrib]
-                    text = (verse.text or "").strip()
-                    chapter_dict[verse_name] = text
 
-                book_dict[chapter_name] = chapter_dict
-
-            bible_dict[book_name] = book_dict
+                    verse_id = get_verse_id(
+                        book=book_instance,
+                        chapter=int(chapter_name),
+                        verse=int(verse_name),
+                    )
+                    bible_dict[verse_id] = (verse.text or "").strip()
 
     return bible_dict
