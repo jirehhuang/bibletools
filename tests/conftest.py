@@ -2,8 +2,8 @@
 
 import pytest
 
-from bibletools._load_bible import parse_xml_to_verse_text_map
 from bibletools._utils import _read_file_as_string
+from bibletools._verse_text_map import parse_xml_to_verse_text_map
 
 VERSE_TEXTS = {
     "Psalm 16:11": (
