@@ -2,7 +2,7 @@
 
 import pytest
 
-from bibletools._load_bible import _parse_xml_to_dict
+from bibletools._load_bible import parse_xml_to_verse_text_mapping
 from bibletools._utils import _read_file_as_string
 
 VERSE_TEXTS = {
@@ -26,4 +26,4 @@ VERSE_TEXTS = {
 def fixture_bible_dict():
     """Return the KJV Bible XML as a nested dictionary."""
     xml = _read_file_as_string(file_location="KJV.xml")
-    return _parse_xml_to_dict(xml=xml)
+    return parse_xml_to_verse_text_mapping(xml=xml)
