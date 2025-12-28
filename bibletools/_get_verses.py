@@ -167,6 +167,8 @@ def convert_reference_to_verse_text(
         Reference with verses to retrieve.
     verse_text_map
         Map for verse IDs to their corresponding text values.
+    verse_separator
+        Separator to use between verse texts.
 
     Returns
     -------
