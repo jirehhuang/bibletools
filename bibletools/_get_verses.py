@@ -154,7 +154,7 @@ def get_highest_weighted_verse(
     return check_valid_verse_ids([highest_weighted_verse])[0]
 
 
-def get_verse_text_for_reference(
+def convert_reference_to_verse_text(
     reference: NormalizedReference,
     verse_text_map: dict[int, str],
     verse_separator: str = " ",

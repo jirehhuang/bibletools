@@ -7,11 +7,11 @@ import pytest
 from pythonbible import get_references
 
 from bibletools._get_verses import (
+    convert_reference_to_verse_text,
     get_all_verse_ids,
     get_highest_weighted_verse,
     get_random_verse_id,
     get_random_verse_ids,
-    get_verse_text_for_reference,
     load_verse_counts,
 )
 from tests.conftest import VERSE_TEXTS
@@ -161,22 +161,22 @@ def test_error_if_get_highest_weighted_verse_with_invalid_verse_id():
 
 
 @pytest.mark.parametrize("verse_reference, expected_text", VERSE_TEXTS.items())
-def test_get_verse_text_for_reference_with_single_verse(
+def test_convert_reference_to_verse_text_with_single_verse(
     verse_text_map, verse_reference, expected_text
 ):
-    """Test that get_verse_text_for_reference returns the correct verse text
+    """Test that convert_reference_to_verse_text returns the correct verse text
     for a single verse reference."""
-    verse_text = get_verse_text_for_reference(
+    verse_text = convert_reference_to_verse_text(
         get_references(verse_reference)[0],
         verse_text_map,
     )
     assert verse_text == expected_text
 
 
-def test_get_verse_text_for_reference_with_multiple_verses(verse_text_map):
-    """Test that get_verse_text_for_reference returns the correct verse text
+def test_convert_reference_to_verse_text_with_multiple_verses(verse_text_map):
+    """Test that convert_reference_to_verse_text returns the correct verse text
     for a reference with multiple verses."""
-    verse_text = get_verse_text_for_reference(
+    verse_text = convert_reference_to_verse_text(
         get_references("Psalm 23")[0],
         verse_text_map,
     )
