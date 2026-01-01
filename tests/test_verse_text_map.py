@@ -1,10 +1,36 @@
 """Test load Bible module."""
 
 import pytest
-from pythonbible import convert_references_to_verse_ids, get_references
+from pythonbible import Book, convert_references_to_verse_ids, get_references
 
-from bibletools._verse_text_map import convert_reference_to_verse_text
+from bibletools._verse_text_map import (
+    _get_book_from_text,
+    convert_reference_to_verse_text,
+)
 from tests.conftest import VERSE_TEXTS
+
+
+def test_get_book_from_text():
+    """Test that _get_book_from_text() correctly maps book names to Book
+    instances with various pathways."""
+    # Exact Enum name
+    assert _get_book_from_text("GENESIS") == Book.GENESIS
+    assert _get_book_from_text("CORINTHIANS_1") == Book.CORINTHIANS_1
+
+    # Exact title
+    assert _get_book_from_text("Revelation") == Book.REVELATION
+    assert _get_book_from_text("1 Timothy") == Book.TIMOTHY_1
+
+    # Abbreviation
+    assert _get_book_from_text("Obad") == Book.OBADIAH
+    assert _get_book_from_text("1 Pt") == Book.PETER_1
+    assert _get_book_from_text("SOS") == Book.SONG_OF_SONGS
+
+    # Regex match
+    assert _get_book_from_text("the book of Leviticus") == Book.LEVITICUS
+
+    # Regex matches to the first book in canonical order
+    assert _get_book_from_text("Revelation and Genesis") == Book.GENESIS
 
 
 def test_verse_text_map_has_all_verses(verse_text_map):
