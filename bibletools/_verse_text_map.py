@@ -48,9 +48,7 @@ def _get_book_from_text(text: str) -> Book:
 
     # 4. Regex match (most flexible, last resort)
     for book in Book:
-        if re.fullmatch(
-            book.regular_expression, normalized, flags=re.IGNORECASE
-        ):
+        if re.search(book.regular_expression, normalized, flags=re.IGNORECASE):
             return book
 
     raise ValueError(f"Unknown Bible book: {text!r}")
