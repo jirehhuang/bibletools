@@ -3,7 +3,12 @@
 import re
 from xml.etree import ElementTree
 
-from pythonbible import Book, get_verse_id
+from pythonbible import (
+    Book,
+    NormalizedReference,
+    convert_reference_to_verse_ids,
+    get_verse_id,
+)
 
 
 def _get_book_from_text(text: str) -> Book:
@@ -106,3 +111,29 @@ def parse_xml_to_verse_text_map(
                     verse_text_map[verse_id] = (verse.text or "").strip()
 
     return verse_text_map
+
+
+def convert_reference_to_verse_text(
+    reference: NormalizedReference,
+    verse_text_map: dict[int, str],
+    verse_separator: str = " ",
+) -> str:
+    """Return verse texts for the given reference.
+
+    Parameters
+    ----------
+    reference
+        Reference with verses to retrieve.
+    verse_text_map
+        Map for verse IDs to their corresponding text values.
+    verse_separator
+        Separator to use between verse texts.
+
+    Returns
+    -------
+    str
+        Concatenated verse texts corresponding to the given reference.
+    """
+    verse_ids = convert_reference_to_verse_ids(reference=reference)
+    verse_texts = [verse_text_map[vid] for vid in verse_ids]
+    return verse_separator.join(verse_texts)

@@ -4,17 +4,14 @@ import re
 
 import numpy as np
 import pytest
-from pythonbible import get_references
 
 from bibletools._get_verses import (
-    convert_reference_to_verse_text,
     get_all_verse_ids,
     get_highest_weighted_verse,
     get_random_verse_id,
     get_random_verse_ids,
     load_verse_counts,
 )
-from tests.conftest import VERSE_TEXTS
 
 
 @pytest.fixture(scope="module", name="total_verse_counts")
@@ -158,39 +155,3 @@ def test_error_if_get_highest_weighted_verse_with_invalid_verse_id():
         get_highest_weighted_verse(
             verse_ids=verse_ids, verse_weights=verse_weights
         )
-
-
-@pytest.mark.parametrize("verse_reference, expected_text", VERSE_TEXTS.items())
-def test_convert_reference_to_verse_text_with_single_verse(
-    verse_text_map, verse_reference, expected_text
-):
-    """Test that convert_reference_to_verse_text returns the correct verse text
-    for a single verse reference."""
-    verse_text = convert_reference_to_verse_text(
-        get_references(verse_reference)[0],
-        verse_text_map,
-    )
-    assert verse_text == expected_text
-
-
-def test_convert_reference_to_verse_text_with_multiple_verses(verse_text_map):
-    """Test that convert_reference_to_verse_text returns the correct verse text
-    for a reference with multiple verses."""
-    verse_text = convert_reference_to_verse_text(
-        get_references("Psalm 23")[0],
-        verse_text_map,
-    )
-    assert verse_text == (
-        "The LORD is my shepherd; I shall not want. "
-        "He maketh me to lie down in green pastures: "
-        "he leadeth me beside the still waters. "
-        "He restoreth my soul: he leadeth me in the paths of righteousness "
-        "for his name's sake. "
-        "Yea, though I walk through the valley of the shadow of death, "
-        "I will fear no evil: for thou art with me; "
-        "thy rod and thy staff they comfort me. "
-        "Thou preparest a table before me in the presence of mine enemies: "
-        "thou anointest my head with oil; my cup runneth over. "
-        "Surely goodness and mercy shall follow me all the days of my life: "
-        "and I will dwell in the house of the LORD for ever."
-    )
