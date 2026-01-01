@@ -32,7 +32,7 @@ def check_valid_verse_ids(verse_ids: list[int]) -> list[int]:
     return verse_ids
 
 
-def _read_file_as_string(file_location: str) -> str:
+def read_file_as_string(file_location: str) -> str:
     """Read the content of a file as a string.
 
     Params

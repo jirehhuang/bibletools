@@ -9,4 +9,5 @@ from ._get_verses import (
     load_verse_counts,
 )
 from ._parse_references import parse_references
+from ._utils import read_file_as_string
 from ._verse_text_map import parse_xml_to_verse_text_map

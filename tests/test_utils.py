@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from bibletools._utils import _read_file_as_string
+from bibletools._utils import read_file_as_string
 from tests.conftest import VERSE_TEXTS
 
 KJV_XML_URL = (
@@ -34,10 +34,10 @@ KJBIBLE_XML_URL = (
         ),
     ],
 )
-def test_read_file_as_string(file_location):
-    """Test that the _read_file_as_string function correctly reads a specified
+def testread_file_as_string(file_location):
+    """Test that the read_file_as_string function correctly reads a specified
     file location that could be a URL, file name, or file path."""
-    xml = _read_file_as_string(file_location=file_location)
+    xml = read_file_as_string(file_location=file_location)
     assert isinstance(xml, str)
     assert xml.startswith("<?xml")
     for verse_text in VERSE_TEXTS.values():
