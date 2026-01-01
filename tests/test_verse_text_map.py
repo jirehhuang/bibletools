@@ -32,6 +32,10 @@ def test_get_book_from_text():
     # Regex matches to the first book in canonical order
     assert _get_book_from_text("Revelation and Genesis") == Book.GENESIS
 
+    # Unknown book
+    with pytest.raises(ValueError, match="Unknown Bible book:"):
+        _get_book_from_text("Unknown book")
+
 
 def test_verse_text_map_has_all_verses(verse_text_map):
     """Test that the parse_xml_to_verse_text_map function correctly
