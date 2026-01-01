@@ -34,7 +34,7 @@ KJBIBLE_XML_URL = (
         ),
     ],
 )
-def testread_file_as_string(file_location):
+def test_read_file_as_string(file_location):
     """Test that the read_file_as_string function correctly reads a specified
     file location that could be a URL, file name, or file path."""
     xml = read_file_as_string(file_location=file_location)
@@ -42,3 +42,10 @@ def testread_file_as_string(file_location):
     assert xml.startswith("<?xml")
     for verse_text in VERSE_TEXTS.values():
         assert verse_text in xml
+
+
+def test_error_if_file_not_found():
+    """Test that the read_file_as_string function raises a FileNotFoundError
+    if the specified file location does not exist."""
+    with pytest.raises(FileNotFoundError, match="Unable to read file:"):
+        read_file_as_string(file_location="non_existent_file.xml")
