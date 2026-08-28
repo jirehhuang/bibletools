@@ -27,3 +27,21 @@ def fixture_verse_text_map():
     """Return the KJV Bible XML as a nested dictionary."""
     xml = read_file_as_string(file_location="KJV.xml")
     return parse_xml_to_verse_text_map(xml=xml)
+
+
+@pytest.fixture(scope="session", name="verse_text_map_numeric_books")
+def fixture_verse_text_map_numeric_books():
+    """Return the testament-nested Bible XML as a nested dictionary.
+
+    Uses numeric book identifiers (``<book number="N">``) rather than book
+    names.
+    """
+    xml = read_file_as_string(file_location="EnglishKJBible.xml")
+    return parse_xml_to_verse_text_map(
+        xml=xml,
+        testament_path="testament",
+        book_spec=("book", "number"),
+        chapter_spec=("chapter", "number"),
+        verse_spec=("verse", "number"),
+        book_id_is_numeric=True,
+    )

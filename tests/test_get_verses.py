@@ -13,6 +13,8 @@ from bibletools._get_verses import (
     load_verse_counts,
 )
 
+N_VERSES: int = int(1e5)
+
 
 @pytest.fixture(scope="module", name="total_verse_counts")
 def fixture_total_verse_counts():
@@ -50,7 +52,7 @@ def test_get_random_verse_ids_without_weights():
     a verse ID without weights."""
     verse_ids = [20016033, 19119071, 2023013, 7011019]
     random_verse_ids = get_random_verse_ids(
-        n_verses=10000, verse_ids=verse_ids
+        n_verses=N_VERSES, verse_ids=verse_ids
     )
     expected_proportion = 1 / len(verse_ids)
     actual_proportion = np.mean(np.array(random_verse_ids) == 20016033)
@@ -61,13 +63,39 @@ def test_get_random_verse_ids_from_all_verses(total_verse_counts):
     """Test that get_random_verse_ids() returns the expected proportion for
     a verse ID without weights."""
     random_verse_ids = get_random_verse_ids(
-        n_verses=10000, verse_weights=total_verse_counts
+        n_verses=N_VERSES, verse_weights=total_verse_counts
     )
     verse_id = 45008028
     expected_proportion = (
         total_verse_counts[str(verse_id)] / total_verse_counts["total"]
     )
     actual_proportion = np.mean(np.array(random_verse_ids) == verse_id)
+    assert np.isclose(actual_proportion, expected_proportion, atol=0.01)
+
+
+def test_get_random_verse_ids_with_combined_multi_author_weights():
+    """Test that get_random_verse_ids() supports caller-supplied weight
+    overrides composed from multiple authors' verse counts, e.g. summing
+    two authors' counts before passing them in as verse_weights."""
+    piper_counts = load_verse_counts("John Piper")
+    macarthur_counts = load_verse_counts("John MacArthur")
+
+    verse_ids = [47004004, 45008028]
+    combined_weights = {
+        str(vid): piper_counts[str(vid)] + macarthur_counts[str(vid)]
+        for vid in verse_ids
+    }
+
+    random_verse_ids = get_random_verse_ids(
+        n_verses=N_VERSES,
+        verse_ids=verse_ids,
+        verse_weights=combined_weights,
+        pad_weight=0,
+    )
+    expected_proportion = combined_weights["47004004"] / sum(
+        combined_weights.values()
+    )
+    actual_proportion = np.mean(np.array(random_verse_ids) == 47004004)
     assert np.isclose(actual_proportion, expected_proportion, atol=0.01)
 
 
@@ -79,7 +107,7 @@ def test_get_random_verse_ids_with_weights_and_pad_weight(pad_weight):
     verse_ids = [20016033, 19119071]
     verse_weights = {"20016033": 7}  # Only weight for one verse ID
     random_verse_ids = get_random_verse_ids(
-        n_verses=10000,
+        n_verses=N_VERSES,
         verse_ids=verse_ids,
         verse_weights=verse_weights,
         pad_weight=pad_weight,
@@ -94,7 +122,7 @@ def test_get_random_verse_ids_with_duplicate_verse_ids():
     verse IDs in the input list."""
     verse_ids = [20016033, 20016033, 19119071]
     random_verse_ids = get_random_verse_ids(
-        n_verses=10000, verse_ids=verse_ids
+        n_verses=N_VERSES, verse_ids=verse_ids
     )
     expected_proportion = 2 / len(verse_ids)
     actual_proportion = np.mean(np.array(random_verse_ids) == 20016033)
