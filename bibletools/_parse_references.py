@@ -46,9 +46,9 @@ def _normalize_dashes(text: str) -> str:
         "\u2012",  # figure dash
         "\u2015",  # horizontal bar
         "\u2212",  # minus sign
-        "\uFE58",  # small em dash
-        "\uFE63",  # small hyphen-minus
-        "\uFF0D",  # fullwidth hyphen-minus
+        "\ufe58",  # small em dash
+        "\ufe63",  # small hyphen-minus
+        "\uff0d",  # fullwidth hyphen-minus
     ]
     for variant in dash_variants:
         text = text.replace(variant, "-")
@@ -62,6 +62,11 @@ def parse_references(text: str) -> list[pb.NormalizedReference]:
     ----------
     text
         A sentence containing a compound Bible reference.
+
+    Returns
+    -------
+    list[pb.NormalizedReference]
+        The parsed references.
     """
     text = _normalize_dashes(text=text)
     text = _normalize_noncontiguous_separators(text=text)

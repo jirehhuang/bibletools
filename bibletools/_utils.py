@@ -17,6 +17,11 @@ def check_valid_verse_ids(verse_ids: list[int]) -> list[int]:
     verse_ids
         List of verse IDs to check.
 
+    Returns
+    -------
+    list[int]
+        The same `verse_ids`, unchanged, if all are valid.
+
     Raises
     ------
     ValueError

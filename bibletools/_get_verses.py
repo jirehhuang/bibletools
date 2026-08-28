@@ -1,4 +1,11 @@
-"""Get verses from the Bible with various methods."""
+"""Get verses from the Bible with various methods.
+
+Note that verse IDs are represented as ``int`` throughout this module's
+public API, but wherever a verse-ID-keyed lookup table is JSON-serialized
+(e.g. the data loaded by :func:`load_verse_counts`, or any
+``verse_weights`` mapping a caller builds from such a file), its keys are
+``str`` rather than ``int``, since JSON object keys must be strings.
+"""
 
 import importlib.resources
 import json
@@ -69,6 +76,8 @@ def get_random_verse_ids(
 
     Parameters
     ----------
+    n_verses
+        Number of verses to return.
     verse_ids
         List of verse IDs to choose from.
     verse_weights
@@ -76,8 +85,6 @@ def get_random_verse_ids(
     pad_weight
         Padding weight added to the weight of each verse. If a verse ID is not
         in `verse_weights`, it is given a weight of 0 plus the `pad_weight`.
-    n_verses
-        Number of verses to return.
 
     Returns
     -------
