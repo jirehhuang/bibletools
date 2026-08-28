@@ -53,6 +53,12 @@ def read_file_as_string(file_location: str) -> str:
     -------
     str
         The content of the file as a string.
+
+    Raises
+    ------
+    FileNotFoundError
+        If `file_location` is not a URL, an existing local file, or a
+        package resource in `bibletools.data.translations`.
     """
     if urllib.parse.urlparse(file_location).scheme in ("http", "https"):
         with urllib.request.urlopen(file_location) as response:

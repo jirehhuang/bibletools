@@ -57,7 +57,7 @@ _ORDINAL_WORDS: dict[str, str] = {
 class MatchedNaturalReference:
     """A natural-language reference that resolved to exactly one verse.
 
-    Parameters
+    Attributes
     ----------
     book
         The resolved book.
@@ -76,7 +76,7 @@ class MatchedNaturalReference:
 class AmbiguousNaturalReference:
     """A natural-language reference whose book matched multiple candidates.
 
-    Parameters
+    Attributes
     ----------
     candidates
         The books that could plausibly match the input's book portion.

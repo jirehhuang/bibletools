@@ -29,14 +29,12 @@ TSK_CROSS_REFERENCES_FILE = "tsk-cross-references-by-id.json"
 class TSKCrossReference:
     """A single TSK cross-reference entry for a verse.
 
-    Parameters
+    Attributes
     ----------
     word
         The specific word or phrase in the verse the cross-references
         relate to.
-
-    References
-    ----------
+    references : tuple[NormalizedReference, ...]
         The resolved cross-reference target(s).
     """
 
@@ -117,11 +115,6 @@ def get_tsk_cross_references(verse_id: int) -> list[TSKCrossReference]:
         The verse's TSK cross-reference entries, in dataset order. Empty
         if the verse ID is valid but has no TSK entries (the TSK dataset
         does not cover every verse).
-
-    Raises
-    ------
-    ValueError
-        If `verse_id` is not a valid verse ID.
     """
     check_valid_verse_ids([verse_id])
 

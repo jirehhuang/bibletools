@@ -37,7 +37,7 @@ class VerseTextMapError(ValueError):
         The specific offending raw attribute or text value, if applicable.
     """
 
-    def __init__(  # noqa: PLR0913  # pylint: disable=too-many-arguments
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         message: str,
         *,
@@ -128,7 +128,7 @@ def _get_book_from_number(text: str) -> Book:
 
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-arguments,too-many-positional-arguments
-def parse_xml_to_verse_text_map(  # noqa: PLR0913
+def parse_xml_to_verse_text_map(  # noqa: PLR0913,PLR0917
     xml: str,
     testament_path: str | None = None,
     book_spec: tuple[str, str] = ("b", "n"),

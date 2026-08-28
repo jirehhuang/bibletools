@@ -30,7 +30,7 @@ GOSPEL_BOOKS = frozenset({Book.MATTHEW, Book.MARK, Book.LUKE, Book.JOHN})
 class HarmonyEntry:
     """A single Gospel harmony narrative event entry.
 
-    Parameters
+    Attributes
     ----------
     category
         The broad narrative category this event falls under, e.g.
@@ -38,9 +38,7 @@ class HarmonyEntry:
     subject
         A short description of the narrative event, e.g. "The sermon on
         the mount".
-
-    References
-    ----------
+    references : tuple[NormalizedReference, ...]
         The resolved parallel passage(s) for this event across the
         Gospels.
     """
@@ -149,11 +147,6 @@ def get_harmony_entries_for_verse(verse_id: int) -> list[HarmonyEntry]:
         dataset order. Empty if `verse_id` is not in one of the four
         Gospels (Matthew, Mark, Luke, John), or if it is in a Gospel but
         not covered by the harmony dataset.
-
-    Raises
-    ------
-    ValueError
-        If `verse_id` is not a valid verse ID.
     """
     check_valid_verse_ids([verse_id])
 
