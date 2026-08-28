@@ -63,6 +63,7 @@ dmypy.json
 
 # Temporary files
 tmp/
+temp/
 
 # Secrets
 .env
