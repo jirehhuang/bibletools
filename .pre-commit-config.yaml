@@ -1,14 +1,14 @@
 repos:
   # Commitizen for commit message validation
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.27.0
+    rev: v4.18.0
     hooks:
       - id: commitizen
         stages: [commit-msg]
 
   # Pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -20,22 +20,31 @@ repos:
 
   # Ruff for linting & autofix
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.7
+    rev: v0.16.5
     hooks:
       - id: ruff
         args: [--fix]
 
   # Black formatter
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 26.5.1
     hooks:
       - id: black
 
   # Flake8 (extra linting rules beyond Ruff)
   - repo: https://github.com/pycqa/flake8
-    rev: 7.1.0
+    rev: 7.3.0
     hooks:
       - id: flake8
+
+  # pydoclint
+  - repo: https://github.com/jsh9/pydoclint
+    rev: 0.9.1
+    hooks:
+      - id: pydoclint
+        args:
+          - --style=numpy
+          - --arg-type-hints-in-docstring=False
 
   # Markdown
 
@@ -46,14 +55,15 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint
+        entry: .venv/bin/pylint
         language: system
         types: [python]
 
   # MyPy type checking
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v2.3.1
     hooks:
       - id: mypy
         additional_dependencies: []
+        entry: .venv/bin/mypy
         language: system
